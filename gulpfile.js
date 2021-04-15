@@ -1,9 +1,8 @@
 const
     gulp          = require('gulp'),
-    path          = require('path'),
-    fs            = require('fs'),
-    requirejs     = require('requirejs'),
+    uglify      = require('gulp-uglify');
     cleanCSS      = require('gulp-clean-css'),
+//    cssnano     = require('gulp-cssnano'),
     htmlmin       = require('gulp-htmlmin'),
 
 

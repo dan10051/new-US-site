@@ -8,6 +8,8 @@ pipelines:
     - step:                        # Prod deploy
        name: Deploy exp-test-pipe to new US site server MANUALY
        deployment: exp-test-pipe
+       caches:
+         - node
        script:
          - echo $hardCodedOverrideConfig > app/js/Overridecore.js
          - sed -i -e  "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" app/js/Overridecore.js
@@ -25,4 +27,3 @@ pipelines:
 #             SERVER: '$DEPLOY_SERVER_EXP'
 #             REMOTE_PATH: '/efs/exp-test-pipe/'
 #             LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/'
- 

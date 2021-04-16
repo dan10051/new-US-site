@@ -26,6 +26,7 @@ pipelines:
                SERVER: '$DEPLOY_SERVER_EXP'
                REMOTE_PATH: '$DEPLOY_REMOTE_PATH'
                LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/'
+               EXTRA_ARGS: '--exclude-from=.gitignore'
 
            - pipe: atlassian/aws-cloudfront-invalidate:0.5.0
              variables:
@@ -59,6 +60,7 @@ pipelines:
                SERVER: '$DEPLOY_SERVER_STAGE'
                REMOTE_PATH: '$DEPLOY_REMOTE_PATH'
                LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/'
+               EXTRA_ARGS: '--exclude-from=.gitignore'
 
            - pipe: atlassian/aws-cloudfront-invalidate:0.5.0
              variables:
@@ -95,6 +97,7 @@ pipelines:
              SERVER: '$DEPLOY_SERVER_STABLE'
              REMOTE_PATH: '$DEPLOY_REMOTE_PATH'
              LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/'
+             EXTRA_ARGS: '--exclude-from=.gitignore'
 
          - pipe: atlassian/aws-cloudfront-invalidate:0.5.0
            variables:

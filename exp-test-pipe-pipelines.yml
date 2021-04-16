@@ -27,3 +27,4 @@ pipelines:
              SERVER: '$DEPLOY_SERVER_EXP'
              REMOTE_PATH: '/efs/exp-test-pipe/'
              LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/'
+             EXTRA_ARGS: '--exclude-from=.gitignore'

@@ -1,7 +1,7 @@
 var gulp          = require('gulp'),
-    //uglify      = require('gulp-uglify');
-    babel         = require('gulp-babel'),
+    uglify        = require('gulp-uglify');
     cleanCSS      = require('gulp-clean-css'),
+    terser        = require('gulp-terser'),
     htmlmin       = require('gulp-htmlmin')
 
 
@@ -9,13 +9,16 @@ var folders = ['./template/']
 gulp.task('minify-js', function() {
   for(i=0;i<folders.length;i++){
     return gulp.src(folders[i]+'**/*.js')
-      .pipe(babel({
-        "presets": ["es2015"],
-        "plugins": ["transform-object-assign"],
-        "compact": true,
-        "comments": false
-    }))
-//      .pipe(uglify())
+        .pipe(uglify())
+        .pipe(gulp.dest(folders[i]));
+    }
+});
+
+var folders = ['./template/']
+gulp.task('treser-js', function() {
+  for(i=0;i<folders.length;i++){
+    return gulp.src(folders[i]+'**/*.js')
+        .pipe(terser())
         .pipe(gulp.dest(folders[i]));
     }
 });

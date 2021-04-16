@@ -1,15 +1,12 @@
-image: node:10.15.3
-
+image: node:10.19.0
 
 pipelines:
 
   custom:
     deployment-exp-test-pipe-Manual: # Another display name
-    - step:                        # Prod deploy
+    - step:                        # exp-test-pipe  deploy
        name: Deploy exp-test-pipe to new US site server MANUALY
        deployment: exp-test-pipe
-       caches:
-         - node
        script:
          - echo $hardCodedOverrideConfig > app/js/Overridecore.js
          - sed -i -e  "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" app/js/Overridecore.js
@@ -17,16 +14,17 @@ pipelines:
          - mv app/js/Overridecore.js app/js/core.js
 
          - npm install
+         - npm update
+         - npm cache clean --force
+         - npm cache verify
          - npm install -g gulp
-         - gulp minify-js
+         - gulp treser-js
          - gulp minify-css
          - gulp minify-html
 
-
-
-#         - pipe: atlassian/rsync-deploy:0.4.4
-#           variables:
-#             USER: '$DEPLOY_USER'
-#             SERVER: '$DEPLOY_SERVER_EXP'
-#             REMOTE_PATH: '/efs/exp-test-pipe/'
-#             LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/'
+         - pipe: atlassian/rsync-deploy:0.4.4
+           variables:
+             USER: '$DEPLOY_USER'
+             SERVER: '$DEPLOY_SERVER_EXP'
+             REMOTE_PATH: '/efs/exp-test-pipe/'
+             LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/'

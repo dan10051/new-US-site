@@ -1,5 +1,4 @@
-#image: node:10.15.3
-
+image: node:10.19.0
 
 pipelines:
 
@@ -7,12 +6,19 @@ pipelines:
     experimental:               # Exp deploy
       - step:
          name: Deploy EXP to new US site
+         caches:
+           - node
          script:
            - echo $hardCodedOverrideConfig > app/js/Overridecore.js
            - sed -i -e  "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" app/js/Overridecore.js
            - tail -n +2 app/js/core.js >> app/js/Overridecore.js
            - mv app/js/Overridecore.js app/js/core.js
-#           - sed -i "s/%CSSFILES%/$CSSFILES/" app/js/core.js
+           - npm install
+           - npm update
+           - npm install -g gulp
+           - gulp treser-js
+           - gulp minify-css
+           - gulp minify-html
 
            - pipe: atlassian/rsync-deploy:0.4.4
              variables:
@@ -33,11 +39,19 @@ pipelines:
     stage:
       - step:                        # Stage deploy
          name: Deploy STAGE to new US site
+         caches:
+           - node
          script:
            - echo $hardCodedOverrideConfig > app/js/Overridecore.js
            - sed -i -e  "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" app/js/Overridecore.js
            - tail -n +2 app/js/core.js >> app/js/Overridecore.js
            - mv app/js/Overridecore.js app/js/core.js
+           - npm install
+           - npm update
+           - npm install -g gulp
+           - gulp treser-js
+           - gulp minify-css
+           - gulp minify-html
 
            - pipe: atlassian/rsync-deploy:0.4.4
              variables:
@@ -60,11 +74,19 @@ pipelines:
     - step:                        # Prod deploy
        name: Deploy STABLE to new US site server MANUALY
        deployment: stable
+       caches:
+         - node
        script:
          - echo $hardCodedOverrideConfig > app/js/Overridecore.js
          - sed -i -e  "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" app/js/Overridecore.js
          - tail -n +2 app/js/core.js >> app/js/Overridecore.js
          - mv app/js/Overridecore.js app/js/core.js
+         - npm install
+         - npm update
+         - npm install -g gulp
+         - gulp treser-js
+         - gulp minify-css
+         - gulp minify-html
 
 
          - pipe: atlassian/rsync-deploy:0.4.4

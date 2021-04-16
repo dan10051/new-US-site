@@ -90,7 +90,6 @@ pipelines:
          - gulp minify-css
          - gulp minify-html
 
-
          - pipe: atlassian/rsync-deploy:0.4.4
            variables:
              USER: '$DEPLOY_USER'

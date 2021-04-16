@@ -7,16 +7,15 @@ pipelines:
     - step:                        # exp-test-pipe  deploy
        name: Deploy exp-test-pipe to new US site server MANUALY
        deployment: exp-test-pipe
+       caches:
+         - node
        script:
          - echo $hardCodedOverrideConfig > app/js/Overridecore.js
          - sed -i -e  "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" -e "s/%BITBUCKET_BUILD_NUMBER%/$BITBUCKET_BUILD_NUMBER/" app/js/Overridecore.js
          - tail -n +2 app/js/core.js >> app/js/Overridecore.js
          - mv app/js/Overridecore.js app/js/core.js
-
          - npm install
          - npm update
-         - npm cache clean --force
-         - npm cache verify
          - npm install -g gulp
          - gulp treser-js
          - gulp minify-css

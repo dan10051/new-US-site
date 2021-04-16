@@ -1,33 +1,38 @@
-const
-    gulp          = require('gulp'),
-    uglify      = require('gulp-uglify');
+var gulp          = require('gulp'),
+    //uglify      = require('gulp-uglify');
+    babel         = require('gulp-babel'),
     cleanCSS      = require('gulp-clean-css'),
-//    cssnano     = require('gulp-cssnano'),
-    htmlmin       = require('gulp-htmlmin'),
+    htmlmin       = require('gulp-htmlmin')
 
 
-var folders = ['./templates/']
+var folders = ['./template/']
 gulp.task('minify-js', function() {
   for(i=0;i<folders.length;i++){
-    gulp.src(folders[i]+'**/*.js')
-        .pipe(uglify())
-        .pipe(gulp.dest(folders[i]))
+    return gulp.src(folders[i]+'**/*.js')
+      .pipe(babel({
+        "presets": ["es2015"],
+        "plugins": ["transform-object-assign"],
+        "compact": true,
+        "comments": false
+    }))
+//      .pipe(uglify())
+        .pipe(gulp.dest(folders[i]));
     }
 });
 
-var folders = ['./templates/']
+var folders = ['./template/']
 gulp.task('minify-css', function() {
   for(i=0;i<folders.length;i++){
-      gulp.src(folders[i]+'**/*.css')
+      return gulp.src(folders[i]+'**/*.css')
         .pipe(cleanCSS({debug: true, rebase: false}))
         .pipe(gulp.dest(folders[i]));
     }
 });
 
-var folders = ['./templates/']
+var folders = ['./template/']
 gulp.task('minify-html', function() {
     for(i=0;i<folders.length;i++){
-      gulp.src(folders[i]+'**/*.html')
+      return gulp.src(folders[i]+'**/*.html')
         .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
         .pipe(gulp.dest(folders[i]));
     }

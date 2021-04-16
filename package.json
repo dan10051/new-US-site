@@ -1,13 +1,13 @@
 {
-  "name": "Dan-test-Gulp",
+  "name": "test",
   "version": "0.0.1",
   "license": "Apache-2.0",
   "author": "Dan dan1005",
 
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-clean-css": "^4.0.0",
+    "gulp": "^4.0.0",
+    "gulp-clean-css": "^4.3.0",
     "gulp-htmlmin": "5.0.1",
-    "gulp-uglify": "^3.6.3"
+    "gulp-uglify": "^3.0.0"
   }
 }
